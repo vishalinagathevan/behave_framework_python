@@ -30,4 +30,6 @@ jobs:
 
       - name: Run Behave tests
         run: |
-          cd behave_framework_python/behave_framework_python/behave_framework_python/testinng/features/login.feature        # Corrected pat
+          cd behave_framework_python/testinng/features
+          behave
+          
