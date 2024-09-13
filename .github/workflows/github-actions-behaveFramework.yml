@@ -33,9 +33,6 @@ jobs:
 
       - name: Run Behave tests
         run: |
-          cd ./behave_framework_python/behave_framework_python/testinng/features
-          behave login.feature
-
-      - name: List current directory contents
-        run: ls -la     
+          cd ./behave_framework_python/testinng/features
+          behave login.feature   
           
