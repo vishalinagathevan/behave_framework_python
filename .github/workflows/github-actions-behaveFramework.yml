@@ -30,5 +30,6 @@ jobs:
 
       - name: Run Behave tests
         run: |
-          cd /testinng/features
-          behave login.feature
+          cd behave_framework_python/testinng/features
+          behave
+          
