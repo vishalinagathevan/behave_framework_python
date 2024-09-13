@@ -30,5 +30,6 @@ jobs:
 
       - name: Run Behave tests
         run: |
-          cd /behave_framework_python/testinng/features  # Change directory to where your feature file is located
-          behave login.feature 
+          cd behave_framework_python/testinng/features  # Corrected path
+          behave login.feature  # Run Behave for the specific feature file
+ 
