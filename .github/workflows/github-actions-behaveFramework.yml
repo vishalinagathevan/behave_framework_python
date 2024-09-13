@@ -35,4 +35,7 @@ jobs:
         run: |
           cd ./testinng/features
           behave login.feature
+
+      - name: List current directory contents
+        run: ls -la     
           
