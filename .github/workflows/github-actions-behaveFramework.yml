@@ -31,5 +31,12 @@ jobs:
       - name: Run Behave tests
         run: |
           cd behave_framework_python/testinng/features  # Corrected path
-          behave login.feature  # Run Behave for the specific feature file
+          behave login.feature
+
+      - name: Archive test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: reports/
  
