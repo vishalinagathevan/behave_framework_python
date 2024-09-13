@@ -30,4 +30,5 @@ jobs:
 
       - name: Run Behave tests
         run: |
+          cd behave_framework_python\behave_framework_python\testinng
           behave  # Run Behave tests
