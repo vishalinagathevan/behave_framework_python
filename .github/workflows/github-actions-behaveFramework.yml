@@ -6,7 +6,7 @@ on:
       - main  # Run on push to main branc
 jobs:
   test:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     services:
       selenium:
         image: selenium/standalone-chrome  # Use a Selenium standalone image with Chrome
