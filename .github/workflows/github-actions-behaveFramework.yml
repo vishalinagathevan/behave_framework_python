@@ -37,5 +37,5 @@ jobs:
           ls -R
           cd ./features
           ls -R
-        
+          behave
           
