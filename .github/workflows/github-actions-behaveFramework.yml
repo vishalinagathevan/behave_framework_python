@@ -33,6 +33,9 @@ jobs:
   
       - name: Run Behave tests
         run: |
+          cd ./testinng
+          ls -R
           cd ./testinng/features
-          behave login.feature   
+          ls -R
+        
           
