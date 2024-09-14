@@ -34,8 +34,7 @@ jobs:
       - name: Use WebDriver Manager to handle ChromeDriver
         run: |
           pip install webdriver-manager
-          python -c "
-
+        
       - name: List current directory contents
         run: ls -R  
   
