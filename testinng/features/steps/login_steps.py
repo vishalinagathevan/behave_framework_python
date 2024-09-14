@@ -3,12 +3,34 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 
+
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+
+def step_impl(context):
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Ensure Chrome runs in headless mode
+    chrome_options.add_argument("--no-sandbox")  # Required for running in CI environments
+    chrome_options.add_argument("--disable-dev-shm-usage")  # Prevent resource issues
+    chrome_options.add_argument("--disable-gpu")  # Disable GPU acceleration
+    chrome_options.add_argument("--window-size=1920x1080")  # Set a default window size
+
+    context.driver = webdriver.Chrome(
+        service=Service(ChromeDriverManager().install())
+    )
+    context.driver.get("https://practicetestautomation.com/practice-test-login/")  # Replace with your test URL
+
+
+
+
+
 # Step definition for navigating to the login page
 @given('I navigate to the Login page')
 def step_impl(context):
     context.driver = webdriver.Chrome() 
     context.driver.maximize_window()  
-    context.driver.get("https://practicetestautomation.com/practice-test-login/")  # Navigate to login page
+    # context.driver.get("https://practicetestautomation.com/practice-test-login/")  # Navigate to login page
     time.sleep(2)  
 
 # Step definition for entering valid username and password
