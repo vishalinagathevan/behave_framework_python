@@ -52,4 +52,8 @@ def step_impl(context):
 @then('I should get a proper warnig message')
 def step_impl(context):
     context.driver.quit()  # Close the browser
+    
+@given('I navigate to the vishali')
+def step_impl(context):
+   print("hi vishali ..")   
    
