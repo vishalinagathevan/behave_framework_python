@@ -6,7 +6,7 @@ import time
 # Step definition for navigating to the login page
 @given('I navigate to the Login page')
 def step_impl(context):
-    context.driver = webdriver.chromehrome() 
+    context.driver = webdriver.Chrome() 
     context.driver.maximize_window()  
     context.driver.get("https://practicetestautomation.com/practice-test-login/")  # Navigate to login page
     time.sleep(2)  

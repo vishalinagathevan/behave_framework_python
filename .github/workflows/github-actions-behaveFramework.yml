@@ -4,14 +4,11 @@ on:
   push:
     branches:
       - main  # Run on push to main branc
+
 jobs:
   test:
     runs-on: ubuntu-latest
-    services:
-      selenium:
-        image: selenium/standalone-chrome  # Use a Selenium standalone image with Chrome
-        ports:
-          - 4444:4444  # Expose the port for Selenium WebDriver
+    
 
     steps:
       - name: Checkout code
@@ -27,12 +24,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt  # Install dependencies from requirements.txt
 
-      - name: Install Chromium browser
-        run: sudo apt-get install -y chromium-browser
+      - name: Install Google Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt-get install -y ./google-chrome-stable_current_amd64.deb
 
-      - name: Install the necessary packages
-        run: pip install requests webdriver-manager selenium behave    
-
+      - name: Install ChromeDriver
+        run: |
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+' | head -1)
+          CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
+          wget https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/local/bin/
+          sudo chmod +x /usr/local/bin/chromedriver
       - name: List current directory contents
         run: ls -R  
   
