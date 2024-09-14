@@ -1,3 +1,2 @@
 behave
 selenium
-webdriver-manager
