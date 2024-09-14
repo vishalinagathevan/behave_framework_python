@@ -19,6 +19,8 @@ def step_impl(context):
     context.driver = webdriver.Chrome(
         service=Service(ChromeDriverManager().install())
     )
+    context.driver = webdriver.Chrome() 
+    context.driver.maximize_window()
     context.driver.get("https://practicetestautomation.com/practice-test-login/")  # Replace with your test URL
 
 
@@ -28,8 +30,8 @@ def step_impl(context):
 # Step definition for navigating to the login page
 @given('I navigate to the Login page')
 def step_impl(context):
-    context.driver = webdriver.Chrome() 
-    context.driver.maximize_window()  
+    # context.driver = webdriver.Chrome() 
+    # context.driver.maximize_window()  
     # context.driver.get("https://practicetestautomation.com/practice-test-login/")  # Navigate to login page
     time.sleep(2)  
 
