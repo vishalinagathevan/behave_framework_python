@@ -21,7 +21,7 @@ def step_impl(context):
     )
     context.driver = webdriver.Chrome() 
     context.driver.maximize_window()
-    context.driver.get("https://practicetestautomation.com/practice-test-login/")  # Replace with your test URL
+    # context.driver.get("https://practicetestautomation.com/practice-test-login/")  # Replace with your test URL
 
 
 
@@ -32,7 +32,7 @@ def step_impl(context):
 def step_impl(context):
     # context.driver = webdriver.Chrome() 
     # context.driver.maximize_window()  
-    # context.driver.get("https://practicetestautomation.com/practice-test-login/")  # Navigate to login page
+    context.driver.get("https://practicetestautomation.com/practice-test-login/")  # Navigate to login page
     time.sleep(2)  
 
 # Step definition for entering valid username and password
