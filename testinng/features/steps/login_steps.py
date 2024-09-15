@@ -48,7 +48,7 @@ def step_impl(context):
 def step_impl(context):
     setup_webdriver(context)
     context.driver.get("https://practicetestautomation.com/practice-test-login/")
-    time.sleep(2)
+    # time.sleep(2)
 
 @when('I enter invalid username and valid password into the fields')
 def step_impl(context):
