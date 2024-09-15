@@ -21,25 +21,20 @@ def setup_webdriver(context, headless=True):
         options=chrome_options
     )
 
-# Step for navigating to the login page
+# Scenario: Successful login
 @given('I navigate to the Login page')
 def step_impl(context):
     setup_webdriver(context)
     context.driver.get("https://practicetestautomation.com/practice-test-login/")
 
-# Step for entering login credentials (can be reused)
-def enter_login_credentials(context, username, password):
-    context.driver.find_element(By.ID, "username").send_keys(username)
-    context.driver.find_element(By.ID, "password").send_keys(password)
-
-# Scenario: Successful login
 @when('I enter valid username and valid password into the fields')
 def step_impl(context):
-    enter_login_credentials(context, "student", "Password123")
+    context.driver.find_element(By.ID, "username").send_keys("student")  # Enter valid username
+    context.driver.find_element(By.ID, "password").send_keys("Password123")  # Enter valid password
 
 @when('I click on the Login button')
 def step_impl(context):
-    context.driver.find_element(By.ID, "submit").click()
+    context.driver.find_element(By.ID, "submit").click()  # Click the login button
     time.sleep(2)
 
 @then('I should get logged in')
@@ -48,8 +43,8 @@ def step_impl(context):
     assert "Logged In Successfully" in success_message, "Login failed!"
     context.driver.quit()
 
-# Scenario: Unsuccessful login
-@given('I navigate to Login page with invalid credentials')
+# Scenario: Login with invalid username and valid password
+@given('I navigated to Login page')
 def step_impl(context):
     setup_webdriver(context)
     context.driver.get("https://practicetestautomation.com/practice-test-login/")
@@ -57,10 +52,16 @@ def step_impl(context):
 
 @when('I enter invalid username and valid password into the fields')
 def step_impl(context):
-    enter_login_credentials(context, "incorrectUser", "Password123")
+    context.driver.find_element(By.ID, "username").send_keys("incorrectUser")  # Enter invalid username
+    context.driver.find_element(By.ID, "password").send_keys("Password123")  # Enter valid password
+
+@when('I click on Login button')
+def step_impl(context):
+    context.driver.find_element(By.ID, "submit").click()  # Click the login button
+    time.sleep(2)
 
 @then('I should get a proper warning message')
 def step_impl(context):
-    warning_message = context.driver.find_element(By.CSS_SELECTOR, ".error").text
+    warning_message = context.driver.find_element(By.CSS_SELECTOR, ".error").text  # Find the error message
     assert "Your username is invalid!" in warning_message, "Warning message not shown!"
     context.driver.quit()
