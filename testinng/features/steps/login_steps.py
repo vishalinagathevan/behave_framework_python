@@ -65,3 +65,4 @@ def step_impl(context):
     warning_message = context.driver.find_element(By.CSS_SELECTOR, ".error").text  # Find the error message
     assert "Your username is invalid!" in warning_message, "Warning message not shown!"
     context.driver.quit()
+    
