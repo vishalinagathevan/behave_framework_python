@@ -64,19 +64,20 @@ def step_impl(context):
     context.driver.get("https://practicetestautomation.com/practice-test-login/")
     time.sleep(2)
 
-@when(u'I enter invalid username and valid password into the fields')
+@when('I enter invalid username and valid password into the fields')
 def step_impl(context):
     context.driver.find_element(By.ID, "username").send_keys("incorrectUser")  # Enter invalid username
     context.driver.find_element(By.ID, "password").send_keys("Password123")  # Enter valid password
 
-@when(u'I click on Login button')
+@when('I click on Login button')
 def step_impl(context):
     context.driver.find_element(By.ID, "submit").click()  # Click the login button
     time.sleep(2)
+    context.driver.quit()
 
-@then(u'I should get a proper warning message')
-def step_impl(context):
+# @then(u'I should get a proper warning message')
+# def step_impl(context):
     # Locate the warning message for invalid login attempt
     # warning_message = context.driver.find_element(By.ID, "error").text
     # assert "Your username is invalid!" in warning_message, "Expected warning message not shown!"
-    context.driver.quit()
+    # context.driver.quit()
