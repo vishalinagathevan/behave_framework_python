@@ -40,5 +40,5 @@ jobs:
           ls -R
           cd ./features
           ls -R
-          behave features/login.feature
+          behave
         
