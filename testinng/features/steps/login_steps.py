@@ -42,21 +42,7 @@ def step_impl(context):
     success_message = context.driver.find_element(By.CSS_SELECTOR, ".post-title").text
     assert "Logged In Successfully" in success_message, "Login failed!"
     context.driver.quit()
-    
-def setup_webdriver(context, headless=True):
-    chrome_options = Options()
-    if headless:
-        chrome_options.add_argument("--headless")  # Run Chrome in headless mode
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--window-size=1920,1080")
-    
-    context.driver = webdriver.Chrome(
-        service=Service(ChromeDriverManager().install()), 
-        options=chrome_options
-    )    
-
+   
 # Scenario: Login with invalid username and valid password
 @given('I navigated to Login page')
 def step_impl(context):
@@ -75,7 +61,7 @@ def step_impl(context):
     time.sleep(2)
     context.driver.quit()
 
-# @then(u'I should get a proper warning message')
+# @then('I should get a proper warning message')
 # def step_impl(context):
     # Locate the warning message for invalid login attempt
     # warning_message = context.driver.find_element(By.ID, "error").text
