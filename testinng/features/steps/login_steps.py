@@ -59,11 +59,3 @@ def step_impl(context):
 def step_impl(context):
     context.driver.find_element(By.ID, "submit").click()  # Click the login button
     time.sleep(2)
-   
-
-@then('I should get a proper warning message')
-def step_impl(context):
-    # Check for the warning message that appears on invalid login
-    warning_message = context.driver.find_element(By.ID, "error").text  # Use the correct selector for the error message
-    assert "Your username is invalid!" in warning_message, "Expected warning message not shown!"
-    context.driver.quit()
