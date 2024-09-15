@@ -1,115 +1,66 @@
 from behave import *
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 import time
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 
-
-
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
-
-@given('I navigate to the Login page')
-def step_impl(context):
-    # Set up Chrome options for headless mode
+# Reusable function to set up WebDriver with Chrome options
+def setup_webdriver(context, headless=True):
     chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Run Chrome in headless mode
-    chrome_options.add_argument("--no-sandbox")  # Required for running as root in Docker
-    chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
-    chrome_options.add_argument("--disable-gpu")  # Disable GPU for headless Chrome
-    chrome_options.add_argument("--window-size=1920,1080")  # Set window size for headless mode
-
-    # Initialize WebDriver with Chrome options
+    if headless:
+        chrome_options.add_argument("--headless")  # Run Chrome in headless mode
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--window-size=1920,1080")
+    
     context.driver = webdriver.Chrome(
         service=Service(ChromeDriverManager().install()), 
         options=chrome_options
     )
 
-    # Navigate to the login page
+# Step for navigating to the login page
+@given('I navigate to the Login page')
+def step_impl(context):
+    setup_webdriver(context)
     context.driver.get("https://practicetestautomation.com/practice-test-login/")
 
-# @given('I navigate to the Login page')
-# def step_impl(context):
-#     chrome_options = Options()
-#     chrome_options.add_argument("--headless")  # Ensure Chrome runs in headless mode
-#     chrome_options.add_argument("--no-sandbox")  # Required for running in CI environments
-#     chrome_options.add_argument("--disable-dev-shm-usage")  # Prevent resource issues
-#     chrome_options.add_argument("--disable-gpu")  # Disable GPU acceleration
-#     chrome_options.add_argument("--window-size=1920x1080")  # Set a default window size
+# Step for entering login credentials (can be reused)
+def enter_login_credentials(context, username, password):
+    context.driver.find_element(By.ID, "username").send_keys(username)
+    context.driver.find_element(By.ID, "password").send_keys(password)
 
-#     context.driver = webdriver.Chrome(
-#         service=Service(ChromeDriverManager().install())
-#     )
-#     context.driver = webdriver.Chrome() 
-#     context.driver.maximize_window()
-#     context.driver.get("https://practicetestautomation.com/practice-test-login/")  # Replace with your test URL
-    
-
-# Step definition for navigating to the login page
-# @given('I navigate to the Login page')
-# def step_impl(context): 
-#     # context.driver.get("https://practicetestautomation.com/practice-test-login/")  # Navigate to login page
-#     time.sleep(2)  
-
-# Step definition for entering valid username and password
+# Scenario: Successful login
 @when('I enter valid username and valid password into the fields')
 def step_impl(context):
-    context.driver.find_element(By.ID, "username").send_keys("student")  # Enter username
-    context.driver.find_element(By.ID, "password").send_keys("Password123")  # Enter password
+    enter_login_credentials(context, "student", "Password123")
 
-# Step definition for clicking the login button
 @when('I click on the Login button')
 def step_impl(context):
-    context.driver.find_element(By.ID, "submit").click()  # Click the login button
-    time.sleep(2)  
-    
-# Step definition to verify that login was successful
+    context.driver.find_element(By.ID, "submit").click()
+    time.sleep(2)
+
 @then('I should get logged in')
 def step_impl(context):
-    success_message = context.driver.find_element(By.CSS_SELECTOR, ".post-title").text  # Verify login success
+    success_message = context.driver.find_element(By.CSS_SELECTOR, ".post-title").text
     assert "Logged In Successfully" in success_message, "Login failed!"
-    context.driver.quit()  # Close the browser
-    
-    
-@given('I navigate to the Login page')
-def step_impl(context):
-    # Set up Chrome options for headless mode
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Run Chrome in headless mode
-    chrome_options.add_argument("--no-sandbox")  # Required for running as root in Docker
-    chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
-    chrome_options.add_argument("--disable-gpu")  # Disable GPU for headless Chrome
-    chrome_options.add_argument("--window-size=1920,1080")  # Set window size for headless mode
+    context.driver.quit()
 
-    # Initialize WebDriver with Chrome options
-    context.driver = webdriver.Chrome(
-        service=Service(ChromeDriverManager().install()), 
-        options=chrome_options
-    )
-
-    # Navigate to the login page
-    context.driver.get("https://practicetestautomation.com/practice-test-login/") 
-   
-@when('I enter invalid username and vaild password into the fields')
+# Scenario: Unsuccessful login
+@given('I navigate to Login page with invalid credentials')
 def step_impl(context):
-    context.driver.find_element(By.ID, "username").send_keys("incorrectUser")  # Enter username
-    context.driver.find_element(By.ID, "password").send_keys("Password123")  # Enter password
-   
-@when('I click on Login button')
-def step_impl(context):
-    context.driver.find_element(By.ID, "submit").click()  # Click the login button
+    setup_webdriver(context)
+    context.driver.get("https://practicetestautomation.com/practice-test-login/")
     time.sleep(2)
-    
 
-@then('I should get a proper warnig message')
+@when('I enter invalid username and valid password into the fields')
 def step_impl(context):
-    context.driver.quit()  # Close the browser
-    
-@given('I navigate to the vishali')
+    enter_login_credentials(context, "incorrectUser", "Password123")
+
+@then('I should get a proper warning message')
 def step_impl(context):
-   print("hi vishali ..")   
-   
+    warning_message = context.driver.find_element(By.CSS_SELECTOR, ".error").text
+    assert "Your username is invalid!" in warning_message, "Warning message not shown!"
+    context.driver.quit()
