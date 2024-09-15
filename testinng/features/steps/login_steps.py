@@ -75,12 +75,24 @@ def step_impl(context):
     context.driver.quit()  # Close the browser
     
     
-@given('I navigated to Login page')
+@given('I navigate to the Login page')
 def step_impl(context):
-    context.driver = webdriver.Chrome()  
-    context.driver.maximize_window()
-    context.driver.get("https://practicetestautomation.com/practice-test-login/")  # Navigate to login page
-    time.sleep(2) 
+    # Set up Chrome options for headless mode
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Run Chrome in headless mode
+    chrome_options.add_argument("--no-sandbox")  # Required for running as root in Docker
+    chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
+    chrome_options.add_argument("--disable-gpu")  # Disable GPU for headless Chrome
+    chrome_options.add_argument("--window-size=1920,1080")  # Set window size for headless mode
+
+    # Initialize WebDriver with Chrome options
+    context.driver = webdriver.Chrome(
+        service=Service(ChromeDriverManager().install()), 
+        options=chrome_options
+    )
+
+    # Navigate to the login page
+    context.driver.get("https://practicetestautomation.com/practice-test-login/") 
    
 @when('I enter invalid username and vaild password into the fields')
 def step_impl(context):
