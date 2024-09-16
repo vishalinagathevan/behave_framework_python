@@ -6,8 +6,13 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 
-# Reusable function to set up WebDriver with Chrome options
+# # Reusable function to set up WebDriver with Chrome options
 def setup_webdriver(context, headless=True):
+    # context.driver = webdriver.Chrome()  # Initialize the Chrome driver
+    # context.driver.maximize_window()  # Maximize the browser window
+    # context.driver.get("https://practicetestautomation.com/practice-test-login/")  # Navigate to login page
+    # time.sleep(2)
+    
     chrome_options = Options()
     if headless:
         chrome_options.add_argument("--headless")  # Run Chrome in headless mode
